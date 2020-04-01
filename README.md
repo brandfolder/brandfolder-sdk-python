@@ -48,7 +48,7 @@ A valid Brandfolder API key is required for all actions. Find yours at https://b
 
 `brandfolder_obj.create_asset(attachments_data, section_key, **attributes)`: Creates asset in the associated Brandfolder. This is also available for a Collection.
 
-`brandfolder_obj.search([query parameters])`: Returns assets in the associated Brandfolder that match the list of search parameters provided
+`brandfolder_obj.search(query)`: Returns assets in the associated Brandfolder that match the query parameters provided.
 
 #### Fields on resource objects:
 `obj.id`: The id of the associated object.

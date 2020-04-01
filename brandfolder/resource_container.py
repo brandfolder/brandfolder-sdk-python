@@ -54,6 +54,6 @@ class ResourceContainer:
 
         return self.resource_class(self.client, data)
 
-    def search(self, query_params: list, **kwargs):
+    def search(self, query_params, **kwargs):
         params = {'search': query_params, **kwargs}
         return self.fetch(params=params)
