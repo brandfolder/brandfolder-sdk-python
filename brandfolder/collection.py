@@ -13,7 +13,7 @@ class Collection(Resource):
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["slug"]}>'
 
-    def create_asset(self, attributes, attachments_data, section_key):
+    def create_asset(self, attachments_data, section_key, **attributes):
         data = {
           'data': {
             'attributes': [

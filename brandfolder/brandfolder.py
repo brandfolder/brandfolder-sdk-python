@@ -54,7 +54,3 @@ class Brandfolder(Resource):
 
         res = self.client.post(f'/{self.resource_type}/{self.id}/sections', json=data)
         return Section(self.client, res['data'])
-
-    def search(self, query_params: list, **kwargs):
-        params = {'search': query_params, **kwargs}
-        return self.assets.fetch(params=params)
