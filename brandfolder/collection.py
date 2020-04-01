@@ -1,6 +1,7 @@
 from brandfolder.resource import Resource
 from brandfolder.resource_container import ResourceContainer
 from brandfolder.asset import Asset
+from brandfolder.attachment import Attachment
 
 
 class Collection(Resource):
@@ -9,6 +10,7 @@ class Collection(Resource):
         super().__init__(client, data, 'Collection', 'collections')
 
         self.assets = ResourceContainer(client, Asset, 'assets', parent=self)
+        self.attachments = ResourceContainer(client, Attachment, 'attachments', parent=self)
 
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["slug"]}>'

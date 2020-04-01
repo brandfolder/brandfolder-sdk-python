@@ -3,6 +3,7 @@ from typing import Optional
 from brandfolder.resource import Resource
 from brandfolder.resource_container import ResourceContainer
 from brandfolder.asset import Asset
+from brandfolder.attachment import Attachment
 from brandfolder.collection import Collection
 from brandfolder.section import Section
 
@@ -13,8 +14,9 @@ class Brandfolder(Resource):
         super().__init__(client, data, 'Brandfolder', 'brandfolders')
 
         self.assets = ResourceContainer(client, Asset, 'assets', parent=self)
-        self.collections = ResourceContainer(client, Collection, 'collections', parent=self, include=True)
-        self.sections = ResourceContainer(client, Section, 'sections', parent=self, include=True)
+        self.attachments = ResourceContainer(client, Attachment, 'attachments', parent=self)
+        self.collections = ResourceContainer(client, Collection, 'collections', parent=self)
+        self.sections = ResourceContainer(client, Section, 'sections', parent=self)
 
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["slug"]}>'
