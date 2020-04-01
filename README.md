@@ -1,6 +1,6 @@
 # The Official Python Brandfolder SDK
 
-[![Brandfolder](https://cdn.brandfolder.io/YUHW9ZNT/as/znoqr595/Primary_Logo.jpg)](https://brandfolder.com)
+[![Brandfolder](https://cdn.brandfolder.io/YUHW9ZNT/as/znoqr595/Primary_Brandfolder_Logo.png)](https://brandfolder.com)
 
 ## Installation
 
@@ -11,73 +11,78 @@ pip install brandfolder
 
 Install from source:
 ```sh
-git clone https://github.com/brandfolder/brandfolder-python-sdk.git
-cd brandfolder-python-sdk
+git clone git@github.com:brandfolder/sdk-python.git
+cd sdk-python
 python setup.py install
 ```
+
 ## Usage
-Interation with the Brandfolder API via the Python SDK is client based. The first thing you need to do
+Interaction with the Brandfolder API via the Python SDK is client based. The first thing you need to do
 is create a client:
 
 `client = Client(api_key=API_KEY)`
 
 A valid Brandfolder API key is required for all actions. Find yours at https://brandfolder.com/profile#integrations.
 
-#### Methods for interacting with Brandfolder:
+#### Methods for interacting with resource objects from Brandfolder:
 
-`fetch()`: Returns all available objects of the provided type.
+`obj.fetch()`: Returns a list from the first page of available objects of the provided type.
 
-`first()`: Returns the first object returned of the provided type.
+`obj.first()`: Returns the first object returned of the provided type.
 
-`fetch_by_id()`: Returns the object associated with the provided type and id.
+`obj.fetch_by_id(<resource_id>)`: Returns the object associated with the provided type and id.
 
-`id()`: Returns the id of the associated object.
+`obj.get(<attribute>)`: Returns the provided attribute value of the associated object.
 
-`attributes()`: Returns the attributes of the provided object.
+`obj.refresh()`: Updates local object attributes with what currently exists in Brandfolder.
 
-`get(<attribute>)`: Returns the provided attribute value of the associated object.
+`obj.set(<updates>)`: Prepares to apply provided updates to the associated object.
 
-`refresh()`: Updates associated objects attributes with what currently exists in Brandfolder.
+`obj.update()`: Pushes updates to the associated object to Brandfolder.
 
-`set(<updates>)`: Prepares to apply provided updates to the associated object.
+`obj.delete()`: Deletes the associated object in Brandfolder.
 
-`updates()`: Displays staged updates to the associated object that are ready to apply.
+`brandfolder_obj.create_section()`: Creates section in the associated Brandfolder.
 
-`update()`: Pushes updates to the associated object to Brandfolder.
+`brandfolder_obj.create_collection()`: Creates collection in the associated Brandfolder.
 
-`delete()`: Deletes the associated object in Brandfolder.
+`brandfolder_obj.create_asset(attachments_data, section_key, **attributes)`: Creates asset in the associated Brandfolder. This is also available for a Collection.
 
-`brandfolder.create_section()`: Creates section in the associated Brandfolder.
+`brandfolder_obj.search([query parameters])`: Returns assets in the associated Brandfolder that match the list of search parameters provided
 
-`brandfolder.create_collection()`: Creates collection in the associated Brandfolder.
+#### Fields on resource objects:
+`obj.id`: The id of the associated object.
 
-`brandfolder.create_asset()`: Creates asset in the associated Brandfolder. This is also available for a Collection.
+`obj.attributes`: The attributes of the provided object.
 
-`brandfolder.search([parameters])`: Returns assets in the associated Brandfolder that match the list of search parameters provided
+`obj.updates`: A dict of staged updates to the associated object that are ready to apply.
+
 
 #### Examples:
+See the complete API documentation at https://developer.brandfolder.com for more examples.
+
 Get all available organizations:
-```sh
+```python
 orgs = client.organizations.fetch()
 ```
 
 Get a specific Brandfolder:
-```sh
-bf = client.brandfolders.fetch_by_id(<brandfolder_id)
+```python
+bf = client.brandfolders.fetch_by_id(<brandfolder_id>)
 ```
 
 Updating an asset:
-```sh
+```python
 asset = bf.assets.fetch_by_id(<asset_id>)  # Grab an asset
-asset.set(name='New Name')  # Can pass attributes as a dict as well {'name': 'New Name'}
+asset.set(name='New Name')
 asset.update()  # Pushes new attributes to Brandfolder
 ```
 
-Search for assets:
-```sh
+Search for assets within a Brandfolder:
+```python
 # Will return results with a name containing "Sample" of filetype ".png"
 
-bf = client.brandfolders.fetch_by_id(<brandfolder_id)
-search_parameters = ['name:sample', 'extension:png`]
-results = bf.search(search_parameters)
+bf = client.brandfolders.fetch_by_id(<brandfolder_id>)
+search_parameters = ['name:sample', 'extension:png']
+results = bf.assets.search(search_parameters)
 ```
