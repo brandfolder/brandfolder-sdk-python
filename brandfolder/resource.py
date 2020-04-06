@@ -3,14 +3,14 @@ from typing import Optional
 
 
 class Resource(ABC):
-    def __init__(self, client, data, resource_name, resource_type):
+    def __init__(self, client, data):
         self.client = client
         self._id = data['id']
         self.type = data['type']
         self._attributes = data['attributes']
         self._updates = {}
-        self.resource_name = resource_name
-        self.resource_type = resource_type
+        self.resource_name = self.__class__.RESOURCE_NAME
+        self.resource_type = self.__class__.RESOURCE_TYPE
         self.endpoint = f'/{self.resource_type}/{self._id}'
 
     def __str__(self):
@@ -29,6 +29,17 @@ class Resource(ABC):
         return {**self._attributes, **self._updates}
 
     def get(self, key, default=None):
+        """Returns the value for key if key exists on the object, else default.
+        If default is not given, it default to None, so that this method never
+        raises a KeyError.
+
+        Args:
+            key (str): Attribute name
+            default: Fallback value to return
+
+        Returns:
+            Value on the Resource
+        """
         return self._attributes.get(key, default)
 
     @property

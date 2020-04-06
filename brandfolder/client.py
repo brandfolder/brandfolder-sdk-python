@@ -66,3 +66,21 @@ class Client:
 
     def delete(self, endpoint, **kwargs):
         return self.request('DELETE', endpoint, **kwargs)
+
+    def fetch_resource_by_id(self, resource_class, id, **kwargs):
+        """Fetches a given resource class by id
+
+        Args:
+            resource_class (child of Resource): The class to fetch
+                and return instantiated.
+            id (str): The specific instance identifier to fetch.
+            kwargs (dict): A dictionary of optional parameters,
+                i.e. fields, include. Converted to query args.
+
+        Returns:
+            Resource: Instance of the provided resource_class
+
+        """
+        resource_type = resource_class.RESOURCE_TYPE
+        res = self.request('GET', f'/{resource_type}/{id}', params=kwargs)
+        return resource_class(self, res['data'])

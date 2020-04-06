@@ -5,9 +5,11 @@ from brandfolder.attachment import Attachment
 
 
 class Collection(Resource):
+    RESOURCE_NAME = 'Collection'
+    RESOURCE_TYPE = 'collections'
 
     def __init__(self, client, data):
-        super().__init__(client, data, 'Collection', 'collections')
+        super().__init__(client, data)
 
         self.assets = ResourceContainer(client, Asset, 'assets', parent=self)
         self.attachments = ResourceContainer(client, Attachment, 'attachments', parent=self)

@@ -3,9 +3,8 @@ from brandfolder.resource import Resource
 
 
 class Attachment(Resource):
-
-    def __init__(self, client, data):
-        super().__init__(client, data, 'Attachment', 'attachments')
+    RESOURCE_NAME = 'Attachment'
+    RESOURCE_TYPE = 'attachments'
 
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["filename"]}>'

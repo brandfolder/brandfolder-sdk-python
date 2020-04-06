@@ -103,7 +103,8 @@ ENV/
 # mypy
 .mypy_cache/
 
-# intellij
+# IDEs
+*.sw[opn]
 .idea/
 
 api_key.py

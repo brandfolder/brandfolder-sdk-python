@@ -9,9 +9,11 @@ from brandfolder.section import Section
 
 
 class Brandfolder(Resource):
+    RESOURCE_NAME = 'Brandfolder'
+    RESOURCE_TYPE = 'brandfolders'
 
     def __init__(self, client, data):
-        super().__init__(client, data, 'Brandfolder', 'brandfolders')
+        super().__init__(client, data)
 
         self.assets = ResourceContainer(client, Asset, 'assets', parent=self)
         self.attachments = ResourceContainer(client, Attachment, 'attachments', parent=self)

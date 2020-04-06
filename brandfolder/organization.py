@@ -4,9 +4,11 @@ from brandfolder.brandfolder import Brandfolder
 
 
 class Organization(Resource):
+    RESOURCE_NAME = 'Organization'
+    RESOURCE_TYPE = 'organizations'
 
     def __init__(self, client, data):
-        super().__init__(client, data, 'Organization', 'organizations')
+        super().__init__(client, data)
 
         self.brandfolders = ResourceContainer(client, Brandfolder, 'brandfolders', parent=self, include=True)
 
