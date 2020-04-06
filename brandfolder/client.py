@@ -32,8 +32,8 @@ class Client:
         if headers:
             self.session.headers.update(headers)
 
-        self.organizations = ResourceContainer(self, Organization, 'organizations')
-        self.brandfolders = ResourceContainer(self, Brandfolder, 'brandfolders')
+        self.organizations = ResourceContainer(self, Organization)
+        self.brandfolders = ResourceContainer(self, Brandfolder)
 
     def request(self, verb: str, endpoint: str, params: Optional[dict] = None, **kwargs) -> dict:
         if not params:
@@ -67,20 +67,20 @@ class Client:
     def delete(self, endpoint, **kwargs):
         return self.request('DELETE', endpoint, **kwargs)
 
-    def fetch_resource_by_id(self, resource_class, id, **kwargs):
+    def fetch_resource_by_id(self, resource_class, id, params=None, **kwargs):
         """Fetches a given resource class by id
 
         Args:
             resource_class (child of Resource): The class to fetch
                 and return instantiated.
             id (str): The specific instance identifier to fetch.
-            kwargs (dict): A dictionary of optional parameters,
+            params (dict): A dictionary of GET parameters,
                 i.e. fields, include. Converted to query args.
+            kwargs (dict): A dictionary of optional parameters.
 
         Returns:
             Resource: Instance of the provided resource_class
 
         """
         resource_type = resource_class.RESOURCE_TYPE
-        res = self.request('GET', f'/{resource_type}/{id}', params=kwargs)
-        return resource_class(self, res['data'])
+        return resource_class(self, self.get_data(f'/{resource_type}/{id}', params=params, **kwargs))

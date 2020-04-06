@@ -10,7 +10,7 @@ class Organization(Resource):
     def __init__(self, client, data):
         super().__init__(client, data)
 
-        self.brandfolders = ResourceContainer(client, Brandfolder, 'brandfolders', parent=self, include=True)
+        self.brandfolders = ResourceContainer(client, Brandfolder, parent=self, include=True)
 
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["slug"]}: {self.id}>'

@@ -11,7 +11,7 @@ class Asset(Resource):
     def __init__(self, client, data):
         super().__init__(client, data)
 
-        self.attachments = ResourceContainer(client, Attachment, 'attachments', parent=self)
+        self.attachments = ResourceContainer(client, Attachment, parent=self)
 
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["name"]}>'

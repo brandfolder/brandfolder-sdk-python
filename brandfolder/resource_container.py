@@ -1,16 +1,16 @@
 class ResourceContainer:
-    def __init__(self, client, resource_class=None, resource_type=None, parent=None, include=False):
+    def __init__(self, client, resource_class=None, parent=None, include=False):
         self.client = client
         self.resource_class = resource_class or self.__class__
-        self.resource_type = resource_type or self.__class__.RESOURCE_TYPE
+        self.resource_type = self.resource_class.RESOURCE_TYPE
 
         if parent is None:
-            self.endpoint = f'/{resource_type}'
+            self.endpoint = f'/{self.resource_type}'
         else:
             if include:
                 self.endpoint = f'/{parent.resource_type}/{parent.id}'
             else:
-                self.endpoint = f'/{parent.resource_type}/{parent.id}/{resource_type}'
+                self.endpoint = f'/{parent.resource_type}/{parent.id}/{self.resource_type}'
 
         self.parent = parent
         self.include = include
