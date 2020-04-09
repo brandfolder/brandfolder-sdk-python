@@ -30,7 +30,7 @@ jobs:
           command: pycodestyle brandfolder --max-line-length 160 |  tee stylereport.out && cat stylereport.out | wc -l | awk '{exit - $1}'
 workflows:
   version: 2
-  production_deploy:
+  checks-and-publishing:
     jobs:
       - stylecheck
       - bandit
