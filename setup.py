@@ -1,3 +1,4 @@
+import os
 import setuptools
 
 with open("README.md", "r") as fh:
@@ -5,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="brandfolder",
-    version="1.0.1",
+    version=f'{os.environ["CIRCLE_TAG"][1:]}',
     author="Brandfolder",
     author_email="developers@brandfolder.com",
     description="A simple wrapper for the Brandfolder API",
