@@ -9,14 +9,16 @@ from brandfolder.section import Section
 
 
 class Brandfolder(Resource):
+    RESOURCE_NAME = 'Brandfolder'
+    RESOURCE_TYPE = 'brandfolders'
 
     def __init__(self, client, data):
-        super().__init__(client, data, 'Brandfolder', 'brandfolders')
+        super().__init__(client, data)
 
-        self.assets = ResourceContainer(client, Asset, 'assets', parent=self)
-        self.attachments = ResourceContainer(client, Attachment, 'attachments', parent=self)
-        self.collections = ResourceContainer(client, Collection, 'collections', parent=self)
-        self.sections = ResourceContainer(client, Section, 'sections', parent=self)
+        self.assets = ResourceContainer(client, Asset, parent=self)
+        self.attachments = ResourceContainer(client, Attachment, parent=self)
+        self.collections = ResourceContainer(client, Collection, parent=self)
+        self.sections = ResourceContainer(client, Section, parent=self)
 
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["slug"]}>'

@@ -4,10 +4,13 @@ from brandfolder.asset import Asset
 
 
 class Section(Resource):
-    def __init__(self, client, data):
-        super().__init__(client, data, 'Section', 'sections')
+    RESOURCE_NAME = 'Section'
+    RESOURCE_TYPE = 'sections'
 
-        self.assets = ResourceContainer(client, Asset, 'assets', parent=self, include=True)
+    def __init__(self, client, data):
+        super().__init__(client, data)
+
+        self.assets = ResourceContainer(client, Asset, parent=self, include=True)
 
     def __repr__(self):
         return f'<{self.resource_name} {self.attributes["name"]}>'
