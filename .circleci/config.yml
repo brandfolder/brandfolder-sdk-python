@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  publish:
+    docker:
+        - image: python:3.6
+    steps:
+      - checkout
+      - run: python -m pip install --user --upgrade setuptools wheel
+      - run: python setup.py sdist bdist_wheel
+      - run: python -m pip install --user --upgrade twine
+      # NOTE: this expects TWINE_USERNAME, TWINE_PASSWORD to be set via the context
+      - run: python -m twine upload dist/*
+  bandit:
+    docker:
+      - image: python:3.6
+    steps:
+      - checkout
+      - run: pip install bandit==1.4.0
+      - run:
+          name: Bandit Testing
+          command: bandit -r . | tee report.out && cat report.out | grep "No issues identified" | wc -l | awk '{exit $1 - 1}'
+  stylecheck:
+    docker:
+      - image: python:3.6
+    steps:
+      - checkout
+      - run: pip install pycodestyle
+      - run:
+          name: Check Code Style
+          command: pycodestyle brandfolder --max-line-length 160 |  tee stylereport.out && cat stylereport.out | wc -l | awk '{exit - $1}'
+workflows:
+  version: 2
+  production_deploy:
+    jobs:
+      - stylecheck
+      - bandit
+      - publish:
+          context: pypi-credentials
+          requires:
+            - bandit
+            - stylecheck
+          filters:
+            tags:
+              only: /^v.*/
