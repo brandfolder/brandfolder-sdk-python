@@ -30,10 +30,24 @@ jobs:
           command: pycodestyle brandfolder --max-line-length 160 |  tee stylereport.out && cat stylereport.out | wc -l | awk '{exit - $1}'
 workflows:
   version: 2
-  checks-and-publishing:
+  checks:
     jobs:
       - stylecheck
       - bandit
+  publish-tag:
+    jobs:
+      - stylecheck:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - bandit:
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
       - publish:
           context: pypi-credentials
           requires:
