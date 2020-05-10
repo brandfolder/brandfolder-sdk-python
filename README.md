@@ -1,6 +1,6 @@
 # The Official Python Brandfolder SDK
 
-[![Brandfolder](https://cdn.brandfolder.io/YUHW9ZNT/as/znoqr595/Primary_Brandfolder_Logo.png)](https://brandfolder.com)
+[![Brandfolder](https://cdn.brandfolder.io/YUHW9ZNT/as/znoqr595/Primary_Brandfolder_Logo.png?width=400)](https://brandfolder.com)
 
 ### What is Brandfolder?
 
