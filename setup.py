@@ -12,7 +12,7 @@ setuptools.setup(
     description="A simple wrapper for the Brandfolder API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/brandfolder/sdk-python",
+    url="https://github.com/brandfolder/brandfolder-sdk-python",
     packages=setuptools.find_packages(),
     classifiers=(
         "Programming Language :: Python :: 3",
