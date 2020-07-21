@@ -108,3 +108,5 @@ ENV/
 .idea/
 
 api_key.py
+
+example.py

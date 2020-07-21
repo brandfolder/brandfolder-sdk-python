@@ -8,8 +8,8 @@ class Collection(Resource):
     RESOURCE_NAME = 'Collection'
     RESOURCE_TYPE = 'collections'
 
-    def __init__(self, client, data):
-        super().__init__(client, data)
+    def __init__(self, client, **kwargs):
+        super().__init__(client, **kwargs)
 
         self.assets = ResourceContainer(client, Asset, parent=self)
         self.attachments = ResourceContainer(client, Attachment, parent=self)

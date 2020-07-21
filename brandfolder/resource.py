@@ -3,12 +3,19 @@ from typing import Optional
 
 
 class Resource(ABC):
-    def __init__(self, client, data):
+    def __init__(self, client, body=None, data=None, included=None):
+        if body:
+            data = body['data']
+            included = body.get('included', [])
+
         self.client = client
+        self.data = data
         self._id = data['id']
         self.type = data['type']
         self._attributes = data['attributes']
         self._updates = {}
+        self.relationships = data.get('relationships', {})
+        self.included = included or []
         self.resource_name = self.__class__.RESOURCE_NAME
         self.resource_type = self.__class__.RESOURCE_TYPE
         self.endpoint = f'/{self.resource_type}/{self._id}'
@@ -48,8 +55,8 @@ class Resource(ABC):
         return self._updates.copy()
 
     def refresh(self):
-        data = self.client.get_data(self.endpoint)
-        self._attributes = data['attributes']
+        res = self.client.get(self.endpoint)
+        self._attributes = res['data']['attributes']
 
     def set(self, **updates):
         self._updates.update(updates)
