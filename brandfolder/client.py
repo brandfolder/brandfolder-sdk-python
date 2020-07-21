@@ -85,3 +85,6 @@ class Client:
         body = self.get(f'/{resource_type}/{id}', params=params, **kwargs)
 
         return resource_class(self, body=body)
+
+    def whoami(self, **kwargs):
+        return self.request('GET', '/users/whoami', **kwargs)

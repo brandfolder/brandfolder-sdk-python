@@ -28,19 +28,19 @@ is create a client:
 
 A valid Brandfolder API key is required for all actions. Find yours at https://brandfolder.com/profile#integrations.
 
+#### Methods for interacting with resource containers from Brandfolder:
+
+`container.fetch()`: Returns a list from the first page of available objects of the provided type. (e.g. `client.brandfolders.fetch()`)
+
+`container.fetch_by_id(<resource_id>)`: Returns the object associated with the provided type and id. (e.g. `client.brandfolders.fetch_by_id(<bf_id>)`)
+
 #### Methods for interacting with resource objects from Brandfolder:
 
-`obj.fetch()`: Returns a list from the first page of available objects of the provided type.
-
-`obj.first()`: Returns the first object returned of the provided type.
-
-`obj.fetch_by_id(<resource_id>)`: Returns the object associated with the provided type and id.
-
-`obj.get(<attribute>)`: Returns the provided attribute value of the associated object.
+`obj.get(<attribute>)`: Returns the provided attribute value of the associated object. (e.g. `asset.get('name')`)
 
 `obj.refresh()`: Updates local object attributes with what currently exists in Brandfolder.
 
-`obj.set(<updates>)`: Prepares to apply provided updates to the associated object.
+`obj.set(<updates>)`: Prepares to apply provided updates to the associated object. (e.g. `asset.set(name='New Name')`)
 
 `obj.update()`: Pushes updates to the associated object to Brandfolder.
 
@@ -58,6 +58,10 @@ A valid Brandfolder API key is required for all actions. Find yours at https://b
 `obj.id`: The id of the associated object.
 
 `obj.attributes`: The attributes of the provided object.
+
+`obj.relationships`: Information about the resources related to the provided object, if explicitly included in the API call.
+
+`obj.included`: The included resources that are related to the provided object, if explicitly included in the API call.
 
 `obj.updates`: A dict of staged updates to the associated object that are ready to apply.
 
