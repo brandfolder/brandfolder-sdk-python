@@ -63,7 +63,7 @@ A valid Brandfolder API key is required for all actions. Find yours at https://b
 
 
 #### Examples:
-See the complete API documentation at https://developer.brandfolder.com for more examples.
+See the complete API documentation at https://developer.brandfolder.com/docs for more examples.
 
 Get all available organizations:
 ```python

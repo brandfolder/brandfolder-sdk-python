@@ -8,8 +8,8 @@ class Asset(Resource):
     RESOURCE_NAME = 'Asset'
     RESOURCE_TYPE = 'assets'
 
-    def __init__(self, client, data):
-        super().__init__(client, data)
+    def __init__(self, client, **kwargs):
+        super().__init__(client, **kwargs)
 
         self.attachments = ResourceContainer(client, Attachment, parent=self)
 

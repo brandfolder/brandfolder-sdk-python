@@ -5,6 +5,7 @@ import os
 from brandfolder.resource_container import ResourceContainer
 from brandfolder.organization import Organization
 from brandfolder.brandfolder import Brandfolder
+from brandfolder.collection import Collection
 
 import requests
 
@@ -34,6 +35,7 @@ class Client:
 
         self.organizations = ResourceContainer(self, Organization)
         self.brandfolders = ResourceContainer(self, Brandfolder)
+        self.collections = ResourceContainer(self, Collection)
 
     def request(self, verb: str, endpoint: str, params: Optional[dict] = None, **kwargs) -> dict:
         if not params:
@@ -54,9 +56,6 @@ class Client:
 
     def get(self, endpoint, **kwargs):
         return self.request('GET', endpoint, **kwargs)
-
-    def get_data(self, endpoint, **kwargs):
-        return self.get(endpoint, **kwargs)['data']
 
     def put(self, endpoint, **kwargs):
         return self.request('PUT', endpoint, **kwargs)
@@ -83,4 +82,6 @@ class Client:
 
         """
         resource_type = resource_class.RESOURCE_TYPE
-        return resource_class(self, self.get_data(f'/{resource_type}/{id}', params=params, **kwargs))
+        body = self.get(f'/{resource_type}/{id}', params=params, **kwargs)
+
+        return resource_class(self, body=body)

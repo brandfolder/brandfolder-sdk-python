@@ -13,7 +13,6 @@ class ResourceContainer:
                 self.endpoint = f'/{parent.resource_type}/{parent.id}/{self.resource_type}'
 
         self.parent = parent
-        self.include = include
 
     def fetch(self, params=None, per=None, page=None, **kwargs):
         if params is None:
@@ -24,22 +23,11 @@ class ResourceContainer:
         if page:
             params['page'] = page
 
-        # E.g. to do /organizations/<org_id>?include=brandfolders
-        # rather than the typical /brandfolders/<bf_id>/assets
-        if self.include:
-            if 'include' in params:
-                if self.resource_type not in params['include']:
-                    params['include'] += f',{self.resource_type}'
-            else:
-                params['include'] = self.resource_type
-
         res = self.client.get(endpoint=self.endpoint, params=params, **kwargs)
-        if self.include:
-            return [self.resource_class(self.client, data)
-                    for data in res['included'] if data['type'] == self.resource_type]
-        else:
-            return [self.resource_class(self.client, data)
-                    for data in res['data']]
+        included = res.get('included', [])
+
+        return [self.resource_class(self.client, data=data, included=included)
+                for data in res['data']]
 
     def first(self, params=None, **kwargs):
         if params is None:
@@ -50,9 +38,9 @@ class ResourceContainer:
         return resources[0] if resources else None
 
     def fetch_by_id(self, id, **kwargs):
-        data = self.client.get_data(endpoint=f'/{self.resource_type}/{id}', **kwargs)
+        body = self.client.get(endpoint=f'/{self.resource_type}/{id}', **kwargs)
 
-        return self.resource_class(self.client, data)
+        return self.resource_class(self.client, body=body)
 
     def search(self, query_params, **kwargs):
         params = {'search': query_params, **kwargs}
