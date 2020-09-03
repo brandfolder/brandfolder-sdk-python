@@ -6,6 +6,8 @@ from brandfolder.resource_container import ResourceContainer
 from brandfolder.organization import Organization
 from brandfolder.brandfolder import Brandfolder
 from brandfolder.collection import Collection
+from brandfolder.asset import Asset
+from brandfolder.attachment import Attachment
 
 import requests
 
@@ -36,6 +38,8 @@ class Client:
         self.organizations = ResourceContainer(self, Organization)
         self.brandfolders = ResourceContainer(self, Brandfolder)
         self.collections = ResourceContainer(self, Collection)
+        self.assets = ResourceContainer(self, Asset)
+        self.attachments = ResourceContainer(self, Attachment)
 
     def request(self, verb: str, endpoint: str, params: Optional[dict] = None, **kwargs) -> dict:
         if not params:
