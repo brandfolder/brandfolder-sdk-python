@@ -31,4 +31,4 @@ class Collection(Resource):
         }
 
         res = self.client.post(f'/{self.resource_type}/{self.id}/assets', json=data)
-        return Asset(self.client, data=res['data'][0])
+        return Asset(client=self.client, data=res['data'][0])

@@ -37,7 +37,7 @@ class Brandfolder(Resource):
         }
 
         res = self.client.post(f'/{self.resource_type}/{self.id}/assets', json=data)
-        return Asset(self.client, data=res['data'][0])
+        return Asset(client=self.client, data=res['data'][0])
 
     def create_collection(self, **attributes):
         data = {
@@ -47,7 +47,7 @@ class Brandfolder(Resource):
         }
 
         res = self.client.post(f'/{self.resource_type}/{self.id}/collections', json=data)
-        return Collection(self.client, data=res['data'])
+        return Collection(client=self.client, data=res['data'])
 
     def create_section(self, **attributes):
         data = {
@@ -57,4 +57,4 @@ class Brandfolder(Resource):
         }
 
         res = self.client.post(f'/{self.resource_type}/{self.id}/sections', json=data)
-        return Section(self.client, data=res['data'])
+        return Section(client=self.client, data=res['data'])
