@@ -6,6 +6,7 @@ from brandfolder.resource_container import ResourceContainer
 from brandfolder.organization import Organization
 from brandfolder.brandfolder import Brandfolder
 from brandfolder.collection import Collection
+from brandfolder.section import Section
 from brandfolder.asset import Asset
 from brandfolder.attachment import Attachment
 
@@ -38,6 +39,7 @@ class Client:
         self.organizations = ResourceContainer(self, Organization)
         self.brandfolders = ResourceContainer(self, Brandfolder)
         self.collections = ResourceContainer(self, Collection)
+        self.sections = ResourceContainer(self, Section)
         self.assets = ResourceContainer(self, Asset)
         self.attachments = ResourceContainer(self, Attachment)
 
