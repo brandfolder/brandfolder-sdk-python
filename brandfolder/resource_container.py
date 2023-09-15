@@ -29,6 +29,21 @@ class ResourceContainer:
         return [self.resource_class(self.client, data=data, included=included)
                 for data in res['data']]
 
+    def paginated_fetch(self, params=None, per=None, page=None, **kwargs):
+        if params is None:
+            params = {}
+
+        if per:
+            params['per'] = per
+        if page:
+            params['page'] = page
+
+        res = self.client.get(endpoint=self.endpoint, params=params, **kwargs)
+        included = res.get('included', [])
+
+        return [self.resource_class(self.client, data=data, included=included)
+                for data in res['data']], res['meta']
+
     def first(self, params=None, **kwargs):
         if params is None:
             params = {}
@@ -45,3 +60,61 @@ class ResourceContainer:
     def search(self, query_params, **kwargs):
         params = {'search': query_params, **kwargs}
         return self.fetch(params=params)
+
+
+class ModifiedResourceContainer(ResourceContainer):
+    """
+    ModifiedResourceContainer is a modified resource container for organizations to fetch assets and attachments
+    without using the deprecated endpoints /organizations/{id}/assets and /organizations/{id}/attachments
+    """
+    restricted = ['assets', 'attachments']
+
+    def fetch(self, params=None, per=100, page=1, **kwargs):
+        total_resources_to_fetch = per * page
+
+        if self.parent \
+            and self.parent.resource_type == 'organizations' \
+            and self.resource_type in self.restricted:
+
+            resources = []
+            stop_op = False
+
+            brandfolders = self.parent.brandfolders.fetch()
+
+            while len(resources) < total_resources_to_fetch and not stop_op:
+                for i, brandfolder in enumerate(brandfolders):
+                    method = getattr(brandfolder, 'assets') \
+                        if self.resource_type == 'assets' \
+                        else getattr(brandfolder, 'attachments')
+
+                    stop_page_for_this_bf = False
+                    p = 1
+                    while stop_page_for_this_bf is False:
+                        fetched_resources, meta = method.paginated_fetch(per=100, page=p, **kwargs)
+                        resources.extend(fetched_resources)
+                        if len(resources) >= total_resources_to_fetch \
+                            or len(fetched_resources) == 0 \
+                            or meta['total_pages'] == p:
+                            stop_page_for_this_bf = True
+                            if i == len(brandfolders) - 1:
+                                stop_op = True
+                                break
+                        else:
+                            p += 1
+
+                if len(resources) >= total_resources_to_fetch:
+                    resources = resources[:total_resources_to_fetch]
+                    break
+                elif len(resources) == 0:
+                    stop_op = True
+                    break
+
+            if resources:
+                resources = resources[-per:]
+            return resources
+
+        res = self.client.get(endpoint=self.endpoint, params=params, **kwargs)
+        included = res.get('included', [])
+
+        return [self.resource_class(self.client, data=data, included=included)
+                for data in res['data']]
