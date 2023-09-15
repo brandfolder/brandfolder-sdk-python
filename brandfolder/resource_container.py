@@ -106,9 +106,6 @@ class ModifiedResourceContainer(ResourceContainer):
                     break
 
             return resources[-per:]
-
-        res = self.client.get(endpoint=self.endpoint, params=params, **kwargs)
-        included = res.get('included', [])
-
-        return [self.resource_class(self.client, data=data, included=included)
-                for data in res['data']]
+        else:
+            r = ResourceContainer(self.client, self.resource_class, self.parent)
+            return r.fetch(params=params, per=per, page=page, **kwargs)
