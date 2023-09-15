@@ -83,35 +83,29 @@ class ModifiedResourceContainer(ResourceContainer):
 
             while len(resources) < total_resources_to_fetch and not stop_op:
                 for i, brandfolder in enumerate(brandfolders):
-                    method = getattr(brandfolder, 'assets') \
-                        if self.resource_type == 'assets' \
-                        else getattr(brandfolder, 'attachments')
+                    method = getattr(brandfolder, 'assets') if self.resource_type == 'assets' else getattr(brandfolder,
+                                                                                                           'attachments')
 
                     stop_page_for_this_bf = False
                     p = 1
                     while stop_page_for_this_bf is False:
                         fetched_resources, meta = method.paginated_fetch(per=100, page=p, **kwargs)
                         resources.extend(fetched_resources)
-                        if len(resources) >= total_resources_to_fetch \
-                            or len(fetched_resources) == 0 \
-                            or meta['total_pages'] == p:
+                        if len(resources) >= total_resources_to_fetch or len(fetched_resources) == 0 or meta[
+                            'total_pages'] == p:
                             stop_page_for_this_bf = True
-                            if i == len(brandfolders) - 1:
-                                stop_op = True
-                                break
                         else:
                             p += 1
+
+                    if i == len(brandfolders) - 1:
+                        stop_op = True
+                        break
 
                 if len(resources) >= total_resources_to_fetch:
                     resources = resources[:total_resources_to_fetch]
                     break
-                elif len(resources) == 0:
-                    stop_op = True
-                    break
 
-            if resources:
-                resources = resources[-per:]
-            return resources
+            return resources[-per:]
 
         res = self.client.get(endpoint=self.endpoint, params=params, **kwargs)
         included = res.get('included', [])
