@@ -36,6 +36,14 @@ A valid Brandfolder API key is required for all actions. Find yours at https://b
 
 #### Methods for interacting with resource objects from Brandfolder:
 
+<br>
+
+| :exclamation: | Deprecation Warning |
+|---------------|:------------------------|
+|  | Functionality to list assets and attachments by organization (`org.assets.fetch(...)` and `org.attachments.fetch(...)`) will soon be deprecated. ***This will be a breaking change for all versions.*** <br><br> Clients wishing to fetch these resources for an entire organization should instead list all Brandfolders for that organization, and then iteratively fetch assets or attachments from each section within a Brandfolder. <br><br> See the API documention for [listing assets](https://developers.brandfolder.com/docs/#list-assets) and [listing attachments](https://developers.brandfolder.com/docs/#list-attachments) for more information. |
+
+<br>
+
 `obj.get(<attribute>)`: Returns the provided attribute value of the associated object. (e.g. `asset.get('name')`)
 
 `obj.refresh()`: Updates local object attributes with what currently exists in Brandfolder.
