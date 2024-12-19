@@ -40,7 +40,7 @@ A valid Brandfolder API key is required for all actions. Find yours at https://b
 
 | :exclamation: | Deprecation Warning |
 |---------------|:------------------------|
-|  | Functionality to list assets and attachments by organization (`org.assets.fetch(...)` and `org.attachments.fetch(...)`) will soon be deprecated. ***This will be a breaking change for all versions.*** <br><br> Clients wishing to fetch these resources for an entire organization should instead list all Brandfolders for that organization, and then iteratively fetch assets or attachments from each section within a Brandfolder. <br><br> See the API documention for [listing assets](https://developers.brandfolder.com/docs/#list-assets) and [listing attachments](https://developers.brandfolder.com/docs/#list-attachments) for more information. |
+|  | Listing assets and attachments by organization (`org.assets.fetch(...)` and `org.attachments.fetch(...)`) was deprecated in v2.0.0. The Brandfolder API will drop support for these operations soon, which ***will be a breaking change for all versions of this SDK.*** <br><br> Clients wishing to fetch these resources for an entire organization should instead list all Brandfolders for that organization, and then iteratively fetch assets or attachments from each section within a Brandfolder. <br><br> See the API documention for [listing assets](https://developers.brandfolder.com/docs/#list-assets) and [listing attachments](https://developers.brandfolder.com/docs/#list-attachments) for more information. |
 
 <br>
 
